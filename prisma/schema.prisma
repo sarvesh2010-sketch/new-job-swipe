@@ -1,0 +1,171 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  STUDENT
+  PROVIDER
+  ADMIN
+}
+
+enum JobStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  CLOSED
+  EXPIRED
+}
+
+enum SwipeDirection {
+  LEFT
+  RIGHT
+}
+
+enum ApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  COMPLETED
+}
+
+enum ReportStatus {
+  OPEN
+  REVIEWED
+  ACTION_TAKEN
+}
+
+enum PayType {
+  PER_HOUR
+  PER_JOB
+  PER_DAY
+}
+
+model User {
+  id               String            @id @default(uuid()) @db.Uuid
+  phone            String            @unique
+  role             Role
+  name             String
+  createdAt        DateTime          @default(now()) @map("created_at")
+  isVerified       Boolean           @default(false) @map("is_verified")
+  studentProfile   StudentProfile?
+  providerProfile  ProviderProfile?
+
+  @@map("users")
+}
+
+model StudentProfile {
+  id             String          @id @default(uuid()) @db.Uuid
+  userId         String          @unique @map("user_id") @db.Uuid
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  collegeOrArea  String          @map("college_or_area")
+  age            Int
+  skills         String[]
+  photoUrl       String          @map("photo_url")
+  trustScore     Float           @default(0.0) @map("trust_score")
+  createdAt      DateTime        @default(now()) @map("created_at")
+  swipes         Swipe[]
+  applications   Application[]
+  ratings        Rating[]
+
+  @@map("student_profiles")
+}
+
+model ProviderProfile {
+  id            String    @id @default(uuid()) @db.Uuid
+  userId        String    @unique @map("user_id") @db.Uuid
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  businessName  String    @map("business_name")
+  businessType  String    @map("business_type")
+  locationLat   Float     @map("location_lat")
+  locationLng   Float     @map("location_lng")
+  address       String
+  isVerified    Boolean   @default(false) @map("is_verified")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  jobs          Job[]
+  ratingsGiven  Rating[]
+
+  @@map("provider_profiles")
+}
+
+model Job {
+  id             String        @id @default(uuid()) @db.Uuid
+  providerId     String        @map("provider_id") @db.Uuid
+  provider       ProviderProfile @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  title          String
+  description    String
+  payAmount      Decimal       @map("pay_amount") @db.Decimal(10, 2)
+  payType        PayType       @map("pay_type")
+  durationHours  Float         @map("duration_hours")
+  locationLat    Float         @map("location_lat")
+  locationLng    Float         @map("location_lng")
+  skillTags      String[]      @map("skill_tags")
+  openings       Int
+  status         JobStatus     @default(ACTIVE)
+  expiresAt      DateTime      @map("expires_at")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  swipes         Swipe[]
+  applications   Application[]
+  ratings        Rating[]
+
+  @@map("jobs")
+}
+
+model Swipe {
+  id         String          @id @default(uuid()) @db.Uuid
+  studentId  String          @map("student_id") @db.Uuid
+  student    StudentProfile  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  jobId      String          @map("job_id") @db.Uuid
+  job        Job             @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  direction  SwipeDirection
+  createdAt  DateTime        @default(now()) @map("created_at")
+
+  @@unique([studentId, jobId])
+  @@map("swipes")
+}
+
+model Application {
+  id         String            @id @default(uuid()) @db.Uuid
+  jobId      String            @map("job_id") @db.Uuid
+  job        Job               @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  studentId  String            @map("student_id") @db.Uuid
+  student    StudentProfile    @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  status     ApplicationStatus @default(PENDING)
+  appliedAt  DateTime          @default(now()) @map("applied_at")
+  decidedAt  DateTime?         @map("decided_at")
+
+  @@unique([jobId, studentId])
+  @@map("applications")
+}
+
+model Rating {
+  id                  String          @id @default(uuid()) @db.Uuid
+  jobId               String          @map("job_id") @db.Uuid
+  job                 Job             @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  ratedStudentId      String          @map("rated_student_id") @db.Uuid
+  student             StudentProfile  @relation(fields: [ratedStudentId], references: [id], onDelete: Cascade)
+  ratedByProviderId   String          @map("rated_by_provider_id") @db.Uuid
+  provider            ProviderProfile @relation(fields: [ratedByProviderId], references: [id], onDelete: Cascade)
+  punctualityScore    Int             @map("punctuality_score")
+  qualityScore        Int             @map("quality_score")
+  comment             String?
+  createdAt           DateTime        @default(now()) @map("created_at")
+
+  @@map("ratings")
+}
+
+model Report {
+  id              String       @id @default(uuid()) @db.Uuid
+  reportedJobId   String?      @map("reported_job_id") @db.Uuid
+  reportedUserId  String?      @map("reported_user_id") @db.Uuid
+  reportedByUserId String      @map("reported_by_user_id") @db.Uuid
+  reason          String
+  status          ReportStatus @default(OPEN)
+  createdAt       DateTime     @map("created_at") @default(now())
+
+  @@map("reports")
+}
