@@ -120,7 +120,7 @@ export default function SwipeCard({ job, active, onSwipeRight, onSwipeLeft, onTa
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className={`
-        absolute w-full rounded-[36px] p-6 select-none overflow-hidden
+        absolute w-full rounded-2xl p-6 select-none overflow-hidden
         border transition-shadow duration-300
         ${active
           ? `z-20 pointer-events-auto h-[530px]
@@ -135,20 +135,20 @@ export default function SwipeCard({ job, active, onSwipeRight, onSwipeLeft, onTa
       {/* Background tint on drag direction */}
       <motion.div className="absolute inset-0 pointer-events-none" style={{ background: bgTintRight }} />
       <motion.div className="absolute inset-0 pointer-events-none" style={{ background: bgTintLeft }} />
-
+ 
       {/* Cursor spotlight */}
       {isHovered && active && (
         <div
-          className="absolute inset-0 rounded-[36px] pointer-events-none z-0"
+          className="absolute inset-0 rounded-2xl pointer-events-none z-0"
           style={{
             background: `radial-gradient(circle 280px at ${glowPos.x}px ${glowPos.y}px, rgba(99,102,241,0.1) 0%, transparent 75%)`,
           }}
         />
       )}
-
+ 
       {/* Top highlight line */}
       <div className="absolute top-0 left-[15%] right-[15%] h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-
+ 
       {/* Swipe intent badges */}
       {active && (
         <>
@@ -166,7 +166,7 @@ export default function SwipeCard({ job, active, onSwipeRight, onSwipeLeft, onTa
           </motion.div>
         </>
       )}
-
+ 
       {/* Card content */}
       <div className="relative z-10 h-full flex flex-col justify-between" style={{ transform: 'translateZ(30px)' }}>
         
@@ -181,13 +181,13 @@ export default function SwipeCard({ job, active, onSwipeRight, onSwipeLeft, onTa
               {job.distance} km away
             </div>
           </div>
-
+ 
           <h2 className="text-[23px] font-extrabold text-gray-100 font-heading leading-tight tracking-tight">
             {job.title}
           </h2>
           <p className="text-[12.5px] font-semibold text-gray-500 mt-1">{job.provider}</p>
         </div>
-
+ 
         {/* Description + skills */}
         <div className="my-4">
           <p className="text-[12.5px] text-gray-400 leading-relaxed line-clamp-4">
@@ -204,13 +204,13 @@ export default function SwipeCard({ job, active, onSwipeRight, onSwipeLeft, onTa
             ))}
           </div>
         </div>
-
+ 
         {/* Footer */}
         <div className="border-t border-white/[0.06] pt-5">
           <div className="flex justify-between items-end mb-5">
             <div>
               <span className="text-[9.5px] font-bold text-gray-600 uppercase tracking-wider block mb-1">Estimated Payout</span>
-              <span className="text-[26px] font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300 tracking-tight font-heading leading-none">
+              <span className="text-[26px] font-black text-emerald-400 tracking-tight font-heading leading-none">
                 {job.pay}
               </span>
             </div>

@@ -176,7 +176,7 @@ export default function FiltersPanel({ isOpen, onClose, filters, onApplyFilters 
             {/* Apply Button */}
             <button
               onClick={handleApply}
-              className="w-full mt-6 py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-[13px] font-bold text-white shadow-[0_4px_15px_rgba(99,102,241,0.2)]"
+              className="w-full mt-6 py-4 rounded-xl bg-indigo-500 hover:bg-[#ff7343] text-[13px] font-bold text-white transition-all cursor-pointer shadow-md shadow-indigo-900/10"
             >
               Apply Filter Mappings
             </button>
