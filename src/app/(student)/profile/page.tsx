@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import Navbar from '@/components/shared/Navbar';
 import BottomTabBar from '@/components/shared/BottomTabBar';
 import { User, Phone, LogOut, CheckCircle2, UserCheck, Star, Award, Layers } from 'lucide-react';
+import LeftSidebar from '@/components/shared/LeftSidebar';
+import RightSidebar from '@/components/shared/RightSidebar';
 
 const SKILLS_LIST = [
   'Customer Service',
@@ -75,7 +77,16 @@ export default function StudentProfilePage() {
     <div className="min-h-screen bg-void text-gray-100 flex flex-col justify-between pb-28">
       <Navbar title="My Profile" />
 
-      <main className="flex-1 max-w-md mx-auto w-full p-4 space-y-6">
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 lg:grid lg:grid-cols-12 lg:gap-8 pt-4 relative">
+
+        {/* Left Column Sidebar */}
+        <div className="hidden lg:block lg:col-span-3">
+          <LeftSidebar />
+        </div>
+
+        {/* Center Column Content */}
+        <div className="col-span-12 lg:col-span-6 flex flex-col items-center">
+          <div className="w-full max-w-md space-y-6">
         
         {/* Profile Card Header */}
         <div className="p-6 rounded-2xl bg-[#0b0f19]/80 border border-white/[0.08] backdrop-blur-xl relative overflow-hidden flex flex-col items-center text-center">
@@ -251,6 +262,14 @@ export default function StudentProfilePage() {
           >
             <LogOut className="w-4 h-4 text-glow-rose" /> Sign Out & Clear Cache
           </button>
+        </div>
+
+          </div>
+        </div>
+
+        {/* Right Column Sidebar */}
+        <div className="hidden lg:block lg:col-span-3">
+          <RightSidebar />
         </div>
 
       </main>

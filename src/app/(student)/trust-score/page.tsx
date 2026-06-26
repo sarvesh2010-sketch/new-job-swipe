@@ -5,6 +5,8 @@ import Navbar from '@/components/shared/Navbar';
 import BottomTabBar from '@/components/shared/BottomTabBar';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { Award, Info } from 'lucide-react';
+import LeftSidebar from '@/components/shared/LeftSidebar';
+import RightSidebar from '@/components/shared/RightSidebar';
 
 /* ─── Animated SVG ring with draw-in on mount ─────────── */
 function AchievementRing({
@@ -184,7 +186,16 @@ export default function StudentTrustScorePage() {
     <div className="min-h-screen bg-void text-gray-100 flex flex-col justify-between pb-28">
       <Navbar title="My Trust Score" />
 
-      <main className="flex-1 max-w-md mx-auto w-full p-4 space-y-5">
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 lg:grid lg:grid-cols-12 lg:gap-8 pt-4 relative">
+
+        {/* Left Column Sidebar */}
+        <div className="hidden lg:block lg:col-span-3">
+          <LeftSidebar />
+        </div>
+
+        {/* Center Column Content */}
+        <div className="col-span-12 lg:col-span-6 flex flex-col items-center">
+          <div className="w-full max-w-md space-y-5">
 
         {/* ── ORBIT VISUALIZATION ───────────────────────── */}
         <div
@@ -297,6 +308,14 @@ export default function StudentTrustScorePage() {
               </div>
             ))}
           </div>
+        </div>
+
+          </div>
+        </div>
+
+        {/* Right Column Sidebar */}
+        <div className="hidden lg:block lg:col-span-3">
+          <RightSidebar />
         </div>
 
       </main>

@@ -8,6 +8,8 @@ import SwipeDeck from '@/components/swipe/SwipeDeck';
 import FiltersPanel from '@/components/swipe/FiltersPanel';
 import { Sliders, RefreshCcw } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import LeftSidebar from '@/components/shared/LeftSidebar';
+import RightSidebar from '@/components/shared/RightSidebar';
 
 // Master data set for student gigs
 const MOCK_GIGS = [
@@ -247,86 +249,101 @@ export default function StudentHomePage() {
       <Navbar title="Feed" />
 
       {/* Main Feed Container */}
-      <main className="flex-1 flex flex-col justify-center items-center px-4 pt-4 relative">
-        
-        {/* Floating background blobs */}
-        <div className="absolute top-10 left-10 w-[200px] h-[200px] bg-indigo-500/5 blur-[60px] -z-10 rounded-full" />
-        <div className="absolute bottom-10 right-10 w-[200px] h-[200px] bg-purple-500/5 blur-[60px] -z-10 rounded-full" />
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 lg:grid lg:grid-cols-12 lg:gap-8 pt-4 relative">
 
-        {/* Sub-Header bar */}
-        <div className="w-full max-w-md flex justify-between items-center mb-5 px-2">
-          <p className="text-[12px] font-bold text-gray-400">
-            Found <span className="text-glow-indigo font-extrabold">{deckJobs.length} Gigs</span> matching your skills
-          </p>
-          <button
-            onClick={() => setIsFilterOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] text-[11px] font-bold text-gray-300 transition-colors"
-          >
-            <Sliders className="w-3.5 h-3.5" /> Filters
-          </button>
+        {/* Left Column Sidebar */}
+        <div className="hidden lg:block lg:col-span-3">
+          <LeftSidebar />
         </div>
 
-        {/* 3D Physics Swipe Deck */}
-        <SwipeDeck
-          jobs={deckJobs}
-          onApply={handleSwipeRight}
-          onSkip={handleSwipeLeft}
-          onTapDetails={onTapDetails}
-          onResetDeck={handleResetDeck}
-          onUndo={handleUndo}
-          lastSwiped={lastSwiped}
-        />
+        {/* Center Column Content */}
+        <div className="col-span-12 lg:col-span-6 flex flex-col items-center relative">
+          
+          {/* Floating background blobs */}
+          <div className="absolute top-10 left-10 w-[200px] h-[200px] bg-indigo-500/5 blur-[60px] -z-10 rounded-full" />
+          <div className="absolute bottom-10 right-10 w-[200px] h-[200px] bg-purple-500/5 blur-[60px] -z-10 rounded-full" />
 
-        {/* Live Activity Ticker (Premium visual touch) */}
-        <div className="w-full max-w-md mt-6 flex items-center justify-center gap-2 bg-[#0b0f19]/45 border border-white/[0.04] rounded-full py-2.5 px-4 backdrop-blur-md">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-          <AnimatePresence mode="wait">
-            <motion.p
-              key={liveEvent}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.3 }}
-              className="text-[10px] text-gray-500 font-semibold tracking-wide uppercase text-center"
+          {/* Sub-Header bar */}
+          <div className="w-full max-w-md flex justify-between items-center mb-5 px-2">
+            <p className="text-[12px] font-bold text-gray-400">
+              Found <span className="text-glow-indigo font-extrabold">{deckJobs.length} Gigs</span> matching your skills
+            </p>
+            <button
+              onClick={() => setIsFilterOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] text-[11px] font-bold text-gray-300 transition-colors"
             >
-              {liveEvent}
-            </motion.p>
-          </AnimatePresence>
-        </div>
+              <Sliders className="w-3.5 h-3.5" /> Filters
+            </button>
+          </div>
 
-        {/* Slide-Up Filters Panel */}
-        <FiltersPanel
-          isOpen={isFilterOpen}
-          onClose={() => setIsFilterOpen(false)}
-          filters={filters}
-          onApplyFilters={handleApplyFilters}
-        />
+          {/* 3D Physics Swipe Deck */}
+          <SwipeDeck
+            jobs={deckJobs}
+            onApply={handleSwipeRight}
+            onSkip={handleSwipeLeft}
+            onTapDetails={onTapDetails}
+            onResetDeck={handleResetDeck}
+            onUndo={handleUndo}
+            lastSwiped={lastSwiped}
+          />
 
-        {/* Floating Swipe Undo Toast */}
-        <AnimatePresence>
-          {showUndo && lastSwiped && (
-            <motion.div
-              initial={{ opacity: 0, y: 50, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 30, scale: 0.9 }}
-              className="absolute bottom-6 z-30 w-full max-w-[340px] px-4 py-3 rounded-2xl bg-[#0b0f19]/90 border border-white/[0.1] backdrop-blur-md shadow-2xl flex items-center justify-between pointer-events-auto"
-            >
-              <div className="flex items-center gap-2.5">
-                <span className="text-[12px] font-medium text-gray-300">
-                  {lastSwiped.direction === 'RIGHT' ? 'Applied to' : 'Skipped'} <strong className="text-gray-100 font-bold">{lastSwiped.job.title}</strong>
-                </span>
-              </div>
-
-              {/* Undo action button with timer */}
-              <button
-                onClick={handleUndo}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 text-[11px] font-extrabold text-glow-indigo transition-colors"
+          {/* Live Activity Ticker (Hidden on desktop sidebar duplicate) */}
+          <div className="w-full max-w-md mt-6 flex lg:hidden items-center justify-center gap-2 bg-[#0b0f19]/45 border border-white/[0.04] rounded-full py-2.5 px-4 backdrop-blur-md">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={liveEvent}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.3 }}
+                className="text-[10px] text-gray-500 font-semibold tracking-wide uppercase text-center"
               >
-                Undo ({undoCountdown}s)
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                {liveEvent}
+              </motion.p>
+            </AnimatePresence>
+          </div>
+
+          {/* Slide-Up Filters Panel */}
+          <FiltersPanel
+            isOpen={isFilterOpen}
+            onClose={() => setIsFilterOpen(false)}
+            filters={filters}
+            onApplyFilters={handleApplyFilters}
+          />
+
+          {/* Floating Swipe Undo Toast */}
+          <AnimatePresence>
+            {showUndo && lastSwiped && (
+              <motion.div
+                initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 30, scale: 0.9 }}
+                className="absolute bottom-6 z-30 w-full max-w-[340px] px-4 py-3 rounded-2xl bg-[#0b0f19]/90 border border-white/[0.1] backdrop-blur-md shadow-2xl flex items-center justify-between pointer-events-auto"
+              >
+                <div className="flex items-center gap-2.5">
+                  <span className="text-[12px] font-medium text-gray-300">
+                    {lastSwiped.direction === 'RIGHT' ? 'Applied to' : 'Skipped'} <strong className="text-gray-100 font-bold">{lastSwiped.job.title}</strong>
+                  </span>
+                </div>
+
+                {/* Undo action button with timer */}
+                <button
+                  onClick={handleUndo}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 text-[11px] font-extrabold text-glow-indigo transition-colors"
+                >
+                  Undo ({undoCountdown}s)
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+        </div>
+
+        {/* Right Column Sidebar */}
+        <div className="hidden lg:block lg:col-span-3">
+          <RightSidebar />
+        </div>
 
       </main>
 

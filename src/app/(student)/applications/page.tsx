@@ -5,6 +5,8 @@ import Navbar from '@/components/shared/Navbar';
 import BottomTabBar from '@/components/shared/BottomTabBar';
 import { Layers, Calendar, MapPin, CheckCircle2, AlertCircle, Clock, ShieldCheck, PhoneCall, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
+import LeftSidebar from '@/components/shared/LeftSidebar';
+import RightSidebar from '@/components/shared/RightSidebar';
 
 // Mock applications histories to pre-fill the history logs
 const DEFAULT_APPS = [
@@ -99,28 +101,37 @@ export default function StudentApplicationsPage() {
     <div className="min-h-screen bg-void text-gray-100 flex flex-col justify-between pb-28">
       <Navbar title="My Applications" />
 
-      <main className="flex-1 max-w-md mx-auto w-full p-4 space-y-6">
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 lg:grid lg:grid-cols-12 lg:gap-8 pt-4 relative">
 
-        {/* Bento Stats Summary Panel */}
-        <div className="grid grid-cols-3 gap-2.5">
-          <div className="p-4 rounded-2xl bg-white/[0.01] border border-white/[0.04] backdrop-blur-md text-center">
-            <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider block mb-1">Applied</span>
-            <span className="text-[18px] font-black text-gray-200 font-heading">{totalApplied} Gigs</span>
-          </div>
-          <div className="p-4 rounded-2xl bg-white/[0.01] border border-white/[0.04] backdrop-blur-md text-center">
-            <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider block mb-1">Total Earned</span>
-            <span className="text-[18px] font-black text-emerald-400 font-heading">₹{totalEarnings || 900}</span>
-          </div>
-          <div className="p-4 rounded-2xl bg-white/[0.01] border border-white/[0.04] backdrop-blur-md text-center">
-            <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider block mb-1">Success Rate</span>
-            <span className="text-[18px] font-black text-teal-400 font-heading">
-              {totalApplied > 0 ? Math.round(((completedGigs + applications.filter(a => a.status === 'APPROVED').length) / totalApplied) * 100) : 100}%
-            </span>
-          </div>
+        {/* Left Column Sidebar */}
+        <div className="hidden lg:block lg:col-span-3">
+          <LeftSidebar />
         </div>
-        
-        {applications.length > 0 ? (
-          <div className="space-y-4">
+
+        {/* Center Column Content */}
+        <div className="col-span-12 lg:col-span-6 flex flex-col items-center">
+          <div className="w-full max-w-md space-y-6">
+
+            {/* Bento Stats Summary Panel */}
+            <div className="grid grid-cols-3 gap-2.5">
+              <div className="p-4 rounded-2xl bg-white/[0.01] border border-white/[0.04] backdrop-blur-md text-center">
+                <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider block mb-1">Applied</span>
+                <span className="text-[18px] font-black text-gray-200 font-heading">{totalApplied} Gigs</span>
+              </div>
+              <div className="p-4 rounded-2xl bg-white/[0.01] border border-white/[0.04] backdrop-blur-md text-center">
+                <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider block mb-1">Total Earned</span>
+                <span className="text-[18px] font-black text-emerald-400 font-heading">₹{totalEarnings || 900}</span>
+              </div>
+              <div className="p-4 rounded-2xl bg-white/[0.01] border border-white/[0.04] backdrop-blur-md text-center">
+                <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider block mb-1">Success Rate</span>
+                <span className="text-[18px] font-black text-teal-400 font-heading">
+                  {totalApplied > 0 ? Math.round(((completedGigs + applications.filter(a => a.status === 'APPROVED').length) / totalApplied) * 100) : 100}%
+                </span>
+              </div>
+            </div>
+
+            {applications.length > 0 ? (
+              <div className="space-y-4">
             {applications.map((app) => (
               <div 
                 key={app.id}
@@ -237,6 +248,14 @@ export default function StudentApplicationsPage() {
             </p>
           </div>
         )}
+
+          </div>
+        </div>
+
+        {/* Right Column Sidebar */}
+        <div className="hidden lg:block lg:col-span-3">
+          <RightSidebar />
+        </div>
 
       </main>
 

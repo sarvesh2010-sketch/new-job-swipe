@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowLeft, Bell } from 'lucide-react';
+import ScrambleText from './ScrambleText';
 
 interface NavbarProps {
   title: string;
@@ -35,7 +36,7 @@ export default function Navbar({ title, showBack = false }: NavbarProps) {
           : 'bg-transparent'
       }`}
     >
-      <div className="max-w-md mx-auto flex items-center justify-between">
+      <div className="max-w-md lg:max-w-6xl mx-auto w-full flex items-center justify-between">
         
         {/* Left: Back or Logo */}
         <div className="flex items-center gap-2.5">
@@ -59,7 +60,7 @@ export default function Navbar({ title, showBack = false }: NavbarProps) {
 
         {/* Center: Page Title */}
         <h1 className="text-[13px] font-bold text-gray-100 tracking-tight font-heading max-w-[180px] truncate">
-          {title}
+          <ScrambleText text={title} duration={700} />
         </h1>
 
         {/* Right: Notifications + Avatar */}
