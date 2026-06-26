@@ -29,7 +29,7 @@ export default function StudentProfilePage() {
   useEffect(() => {
     const saved = localStorage.getItem('jobswipe_student_profile');
     if (!saved) {
-      router.push('/onboarding');
+      router.push('/login');
       return;
     }
     const data = JSON.parse(saved);
@@ -65,7 +65,7 @@ export default function StudentProfilePage() {
       localStorage.removeItem('jobswipe_student_profile');
       localStorage.removeItem('jobswipe_applications');
       localStorage.removeItem('jobswipe_apps_seeded');
-      router.push('/onboarding');
+      router.push('/login');
     }
   };
 

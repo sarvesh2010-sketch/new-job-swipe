@@ -90,7 +90,7 @@ export default function StudentHomePage() {
   useEffect(() => {
     const saved = localStorage.getItem('jobswipe_student_profile');
     if (!saved) {
-      router.push('/onboarding');
+      router.push('/login');
       return;
     }
     setProfile(JSON.parse(saved));

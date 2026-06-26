@@ -45,9 +45,24 @@ export default function SwipeCard({ job, active, onSwipeRight, onSwipeLeft, onTa
   const [isHovered, setIsHovered] = useState(false);
   const [swipeDir, setSwipeDir] = useState<'left' | 'right' | null>(null);
 
+  const rectRef = useRef<{ left: number; top: number; width: number; height: number } | null>(null);
+
+  const handleMouseEnter = useCallback(() => {
+    setIsHovered(true);
+    if (cardRef.current) {
+      const rect = cardRef.current.getBoundingClientRect();
+      rectRef.current = {
+        left: rect.left,
+        top: rect.top,
+        width: rect.width,
+        height: rect.height,
+      };
+    }
+  }, []);
+
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current || !active) return;
-    const rect = cardRef.current.getBoundingClientRect();
+    if (!rectRef.current || !active) return;
+    const rect = rectRef.current;
     const normX = (e.clientX - rect.left) / rect.width - 0.5;
     const normY = (e.clientY - rect.top) / rect.height - 0.5;
     setTiltX(-normY * 10);
@@ -59,6 +74,7 @@ export default function SwipeCard({ job, active, onSwipeRight, onSwipeLeft, onTa
     setIsHovered(false);
     setTiltX(0);
     setTiltY(0);
+    rectRef.current = null;
   }, []);
 
   const handleDragEnd = useCallback((_: any, info: any) => {
@@ -101,7 +117,7 @@ export default function SwipeCard({ job, active, onSwipeRight, onSwipeLeft, onTa
       }}
       whileDrag={{ cursor: 'grabbing', scale: 1.01 }}
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className={`
         absolute w-full rounded-[36px] p-6 select-none overflow-hidden
@@ -113,7 +129,7 @@ export default function SwipeCard({ job, active, onSwipeRight, onSwipeLeft, onTa
                'border-white/[0.08] shadow-[0_16px_50px_rgba(0,0,0,0.45)]'}`
           : 'z-10 pointer-events-none h-[530px] scale-95 translate-y-5 border-white/[0.04]'
         }
-        bg-[#0b0f19]/90 backdrop-blur-2xl
+        bg-deep/90 backdrop-blur-2xl
       `}
     >
       {/* Background tint on drag direction */}

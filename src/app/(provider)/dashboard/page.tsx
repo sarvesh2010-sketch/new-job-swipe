@@ -80,7 +80,7 @@ export default function ProviderDashboardPage() {
   useEffect(() => {
     const savedProfile = localStorage.getItem('jobswipe_provider_profile');
     if (!savedProfile) {
-      router.push('/provider-onboarding');
+      router.push('/login');
       return;
     }
     setProvider(JSON.parse(savedProfile));
@@ -103,7 +103,7 @@ export default function ProviderDashboardPage() {
     if (confirm('Exit Host Portal?')) {
       localStorage.removeItem('jobswipe_provider_profile');
       localStorage.removeItem('jobswipe_provider_listings');
-      router.push('/provider-onboarding');
+      router.push('/login');
     }
   };
 

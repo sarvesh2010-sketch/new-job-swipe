@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import PageTransition from './PageTransition';
+import ShaderBackground from './ShaderBackground';
 
 const LoadingScreen = dynamic(() => import('./LoadingScreen'), { ssr: false });
 
@@ -15,6 +16,9 @@ export default function ClientProviders({ children }: { children: React.ReactNod
 
   return (
     <>
+      {/* Dynamic WebGL Shader Background behind all pages */}
+      <ShaderBackground />
+
       {/* Loading screen — shows once per session, then exits */}
       <LoadingScreen onComplete={handleComplete} />
 

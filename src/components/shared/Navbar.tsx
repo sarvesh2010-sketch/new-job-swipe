@@ -31,7 +31,7 @@ export default function Navbar({ title, showBack = false }: NavbarProps) {
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       className={`sticky top-0 z-40 w-full px-4 py-3 transition-all duration-300 ${
         scrolled
-          ? 'bg-[#050814]/80 backdrop-blur-xl border-b border-white/[0.06] shadow-[0_1px_0_rgba(255,255,255,0.04)]'
+          ? 'bg-deep/80 backdrop-blur-xl border-b border-white/[0.06] shadow-[0_1px_0_rgba(255,255,255,0.04)]'
           : 'bg-transparent'
       }`}
     >
@@ -73,7 +73,7 @@ export default function Navbar({ title, showBack = false }: NavbarProps) {
               <motion.span
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-indigo-500 ring-2 ring-[#050814]"
+                className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-indigo-500 ring-2 ring-black"
               />
             )}
           </Link>

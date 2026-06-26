@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { ShieldAlert, Trash2, XCircle, Search, FileText, UserX, Check, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const DEFAULT_REPORTS = [
   {
@@ -27,11 +28,19 @@ const DEFAULT_REPORTS = [
 ];
 
 export default function AdminReportsPage() {
+  const router = useRouter();
   const [reports, setReports] = useState<any[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [message, setMessage] = useState('');
 
   useEffect(() => {
+    // Auth gate check
+    const loggedIn = localStorage.getItem('jobswipe_admin_logged_in');
+    if (!loggedIn) {
+      router.push('/admin/login');
+      return;
+    }
+
     const saved = localStorage.getItem('jobswipe_admin_reports');
     if (!saved) {
       localStorage.setItem('jobswipe_admin_reports', JSON.stringify(DEFAULT_REPORTS));
@@ -42,7 +51,7 @@ export default function AdminReportsPage() {
       setReports(data);
       if (data.length > 0) setSelectedId(data[0].id);
     }
-  }, []);
+  }, [router]);
 
   // Automated flag triggers checking for scam keywords
   const getScamWarnings = (reason: string) => {
@@ -118,10 +127,19 @@ export default function AdminReportsPage() {
             </span>
           </div>
 
-          <div className="flex gap-6 text-[12px] font-bold text-gray-500">
+          <div className="flex gap-6 text-[12px] font-bold text-gray-500 items-center">
             <Link href="/analytics" className="hover:text-indigo-400">Analytics</Link>
             <Link href="/providers" className="hover:text-indigo-400">Verification</Link>
             <Link href="/reports" className="text-indigo-400">Moderation</Link>
+            <button
+              onClick={() => {
+                localStorage.removeItem('jobswipe_admin_logged_in');
+                router.push('/admin/login');
+              }}
+              className="text-rose-400 hover:text-rose-300 font-bold ml-2 py-1 px-3.5 border border-rose-500/20 hover:border-rose-500/40 rounded-lg bg-rose-500/5 transition-all"
+            >
+              Logout
+            </button>
           </div>
         </div>
       </header>

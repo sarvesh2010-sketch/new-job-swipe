@@ -72,7 +72,7 @@ export default function SwipeDeck({ jobs, onApply, onSkip, onTapDetails, onReset
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute inset-0 rounded-[36px] p-8 flex flex-col justify-center items-center text-center bg-[#0b0f19]/50 backdrop-blur-xl border border-white/[0.06]"
+            className="absolute inset-0 rounded-[36px] p-8 flex flex-col justify-center items-center text-center bg-deep/50 backdrop-blur-xl border border-white/[0.06]"
           >
             <motion.div
               animate={{ scale: [1, 1.08, 1] }}

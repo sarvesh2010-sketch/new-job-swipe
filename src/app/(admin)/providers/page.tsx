@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { ShieldCheck, UserX, UserCheck, Search, Building, MapPin, FileText, Check, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const DEFAULT_PENDING_PROVIDERS = [
   {
@@ -27,11 +28,19 @@ const DEFAULT_PENDING_PROVIDERS = [
 ];
 
 export default function AdminProvidersPage() {
+  const router = useRouter();
   const [pending, setPending] = useState<any[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [message, setMessage] = useState('');
 
   useEffect(() => {
+    // Auth gate check
+    const loggedIn = localStorage.getItem('jobswipe_admin_logged_in');
+    if (!loggedIn) {
+      router.push('/admin/login');
+      return;
+    }
+
     // Seed initial pending providers
     const saved = localStorage.getItem('jobswipe_admin_pending_providers');
     if (!saved) {
@@ -43,7 +52,7 @@ export default function AdminProvidersPage() {
       setPending(data);
       if (data.length > 0) setSelectedId(data[0].id);
     }
-  }, []);
+  }, [router]);
 
   const handleVerify = (id: string, action: 'APPROVE' | 'REJECT') => {
     const target = pending.find(p => p.id === id);
@@ -100,10 +109,19 @@ export default function AdminProvidersPage() {
             </span>
           </div>
 
-          <div className="flex gap-6 text-[12px] font-bold text-gray-500">
+          <div className="flex gap-6 text-[12px] font-bold text-gray-500 items-center">
             <Link href="/analytics" className="hover:text-indigo-400">Analytics</Link>
             <Link href="/providers" className="text-indigo-400">Verification</Link>
             <Link href="/reports" className="hover:text-indigo-400">Moderation</Link>
+            <button
+              onClick={() => {
+                localStorage.removeItem('jobswipe_admin_logged_in');
+                router.push('/admin/login');
+              }}
+              className="text-rose-400 hover:text-rose-300 font-bold ml-2 py-1 px-3.5 border border-rose-500/20 hover:border-rose-500/40 rounded-lg bg-rose-500/5 transition-all"
+            >
+              Logout
+            </button>
           </div>
         </div>
       </header>

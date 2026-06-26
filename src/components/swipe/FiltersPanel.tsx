@@ -65,7 +65,7 @@ export default function FiltersPanel({ isOpen, onClose, filters, onApplyFilters 
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 z-40 bg-[#050814]/60 backdrop-blur-sm"
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
           />
 
           {/* Bottom Drawer */}
@@ -74,7 +74,7 @@ export default function FiltersPanel({ isOpen, onClose, filters, onApplyFilters 
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', stiffness: 260, damping: 26 }}
-            className="fixed bottom-0 left-0 right-0 z-50 max-w-md mx-auto p-6 rounded-t-[36px] bg-[#0b0f19]/90 border-t border-white/[0.08] backdrop-blur-2xl shadow-[0_-12px_40px_rgba(0,0,0,0.5)]"
+            className="fixed bottom-0 left-0 right-0 z-50 max-w-md mx-auto p-6 rounded-t-[36px] bg-deep/90 border-t border-white/[0.08] backdrop-blur-2xl shadow-[0_-12px_40px_rgba(0,0,0,0.5)]"
           >
             {/* Drawer Bevel Handle */}
             <div className="w-10 h-1 bg-white/10 rounded-full mx-auto mb-6" />

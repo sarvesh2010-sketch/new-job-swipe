@@ -1,11 +1,20 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { TrendingUp, Users, ShieldAlert, Zap, Compass, Activity, ShieldCheck, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function AdminAnalyticsPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const loggedIn = localStorage.getItem('jobswipe_admin_logged_in');
+    if (!loggedIn) {
+      router.push('/admin/login');
+    }
+  }, [router]);
   
   // Real-time Risk Monitoring Dashboard parameters
   const riskMetrics = [
@@ -29,10 +38,19 @@ export default function AdminAnalyticsPage() {
             </span>
           </div>
 
-          <div className="flex gap-6 text-[12px] font-bold text-gray-500">
+          <div className="flex gap-6 text-[12px] font-bold text-gray-500 items-center">
             <Link href="/analytics" className="text-indigo-400">Analytics</Link>
             <Link href="/providers" className="hover:text-indigo-400">Verification</Link>
             <Link href="/reports" className="hover:text-indigo-400">Moderation</Link>
+            <button
+              onClick={() => {
+                localStorage.removeItem('jobswipe_admin_logged_in');
+                router.push('/admin/login');
+              }}
+              className="text-rose-400 hover:text-rose-300 font-bold ml-2 py-1 px-3.5 border border-rose-500/20 hover:border-rose-500/40 rounded-lg bg-rose-500/5 transition-all"
+            >
+              Logout
+            </button>
           </div>
         </div>
       </header>
