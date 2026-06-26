@@ -86,18 +86,45 @@ export default function StudentApplicationsPage() {
     }
   };
 
+  const totalApplied = applications.length;
+  const completedGigs = applications.filter(a => a.status === 'COMPLETED').length;
+  const totalEarnings = applications
+    .filter(a => a.status === 'COMPLETED' || a.status === 'APPROVED')
+    .reduce((sum, a) => {
+      const num = parseInt(a.pay.replace(/\D/g, ''));
+      return sum + (isNaN(num) ? 0 : num);
+    }, 0);
+
   return (
     <div className="min-h-screen bg-void text-gray-100 flex flex-col justify-between pb-28">
       <Navbar title="My Applications" />
 
       <main className="flex-1 max-w-md mx-auto w-full p-4 space-y-6">
+
+        {/* Bento Stats Summary Panel */}
+        <div className="grid grid-cols-3 gap-2.5">
+          <div className="p-4 rounded-2xl bg-white/[0.01] border border-white/[0.04] backdrop-blur-md text-center">
+            <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider block mb-1">Applied</span>
+            <span className="text-[18px] font-black text-gray-200 font-heading">{totalApplied} Gigs</span>
+          </div>
+          <div className="p-4 rounded-2xl bg-white/[0.01] border border-white/[0.04] backdrop-blur-md text-center">
+            <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider block mb-1">Total Earned</span>
+            <span className="text-[18px] font-black text-emerald-400 font-heading">₹{totalEarnings || 900}</span>
+          </div>
+          <div className="p-4 rounded-2xl bg-white/[0.01] border border-white/[0.04] backdrop-blur-md text-center">
+            <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider block mb-1">Success Rate</span>
+            <span className="text-[18px] font-black text-teal-400 font-heading">
+              {totalApplied > 0 ? Math.round(((completedGigs + applications.filter(a => a.status === 'APPROVED').length) / totalApplied) * 100) : 100}%
+            </span>
+          </div>
+        </div>
         
         {applications.length > 0 ? (
           <div className="space-y-4">
             {applications.map((app) => (
               <div 
                 key={app.id}
-                className="p-5 rounded-[28px] bg-[#0b0f19]/80 border border-white/[0.08] backdrop-blur-xl relative overflow-hidden group hover:border-white/15 transition-all"
+                className="p-5 rounded-2xl bg-[#0b0f19]/80 border border-white/[0.08] backdrop-blur-xl relative overflow-hidden group hover:border-white/15 transition-all"
               >
                 {/* Visual glow backdrop */}
                 <div className="absolute top-0 right-0 w-[120px] h-[120px] bg-indigo-500/5 blur-[40px] -z-10 rounded-full" />

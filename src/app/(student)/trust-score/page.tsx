@@ -189,7 +189,7 @@ export default function StudentTrustScorePage() {
         {/* ── ORBIT VISUALIZATION ───────────────────────── */}
         <div
           ref={heroRef}
-          className="p-6 rounded-[36px] bg-[#0b0f19]/80 border border-white/[0.08] backdrop-blur-xl relative overflow-hidden flex flex-col items-center"
+          className="p-6 rounded-2xl bg-[#0b0f19]/80 border border-white/[0.08] backdrop-blur-xl relative overflow-hidden flex flex-col items-center"
         >
           {/* Background glow */}
           <div className="absolute w-[240px] h-[240px] bg-indigo-500/8 blur-[80px] rounded-full -z-10" />
@@ -210,7 +210,7 @@ export default function StudentTrustScorePage() {
               className="w-[100px] h-[100px] rounded-full bg-[#050814]/90 border border-indigo-500/30 flex flex-col items-center justify-center z-30 shadow-[0_0_40px_rgba(99,102,241,0.3),inset_0_1px_1px_rgba(255,255,255,0.06)]"
             >
               <span className="text-[9.5px] font-bold text-gray-600 uppercase tracking-widest">Score</span>
-              <span className="text-[34px] font-black text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-indigo-400 font-heading leading-none mt-1">
+              <span className="text-[34px] font-black text-indigo-400 font-heading leading-none mt-1">
                 {trustScore.toFixed(1)}
               </span>
               <span className="text-[9px] font-bold text-emerald-400 mt-1">Excellent</span>
@@ -258,7 +258,7 @@ export default function StudentTrustScorePage() {
         </div>
 
         {/* ── ACHIEVEMENT RINGS ─────────────────────────── */}
-        <div className="p-5 rounded-[28px] bg-white/[0.01] border border-white/[0.05] space-y-4">
+        <div className="p-5 rounded-2xl bg-white/[0.01] border border-white/[0.05] space-y-4">
           <h4 className="text-[12.5px] font-bold text-gray-400 flex items-center gap-1.5">
             <Award className="w-4 h-4 text-indigo-400" /> Reputation Achievements
           </h4>
@@ -268,12 +268,35 @@ export default function StudentTrustScorePage() {
         </div>
 
         {/* ── SPARKLINE GROWTH ──────────────────────────── */}
-        <div className="p-5 rounded-[28px] bg-white/[0.01] border border-white/[0.05] space-y-4">
+        <div className="p-5 rounded-2xl bg-white/[0.01] border border-white/[0.05] space-y-4">
           <div className="flex justify-between items-center">
             <h4 className="text-[12.5px] font-bold text-gray-400">Growth Projection</h4>
             <span className="text-[11px] font-bold text-indigo-400">+0.8 vs Starting</span>
           </div>
           <SparkLine />
+        </div>
+
+        {/* ── REPUTATION LEDGER ─────────────────────────── */}
+        <div className="p-5 rounded-2xl bg-white/[0.01] border border-white/[0.05] space-y-4">
+          <h4 className="text-[12.5px] font-bold text-gray-400">Reputation Score Audit Ledger</h4>
+          <div className="space-y-3">
+            {[
+              { desc: 'Completed Ushering Gig - Nexus Concert', change: '+0.05', time: '2 hours ago', positive: true },
+              { desc: 'Completed Flyer Distribution - Fit Gym', change: '+0.03', time: '2 days ago', positive: true },
+              { desc: 'Onboarding verification bonus points', change: '+0.20', time: '5 days ago', positive: true },
+              { desc: 'Late Cancellation - Barista Training', change: '-0.10', time: '1 week ago', positive: false },
+            ].map((entry, idx) => (
+              <div key={idx} className="flex justify-between items-center py-2.5 border-b border-white/[0.03] last:border-b-0">
+                <div>
+                  <span className="text-[12px] font-bold text-gray-200 block">{entry.desc}</span>
+                  <span className="text-[9.5px] text-gray-500 block mt-0.5">{entry.time}</span>
+                </div>
+                <span className={`text-[12px] font-extrabold ${entry.positive ? 'text-emerald-400' : 'text-rose-500'}`}>
+                  {entry.change}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
 
       </main>

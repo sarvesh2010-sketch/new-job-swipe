@@ -78,7 +78,7 @@ export default function StudentProfilePage() {
       <main className="flex-1 max-w-md mx-auto w-full p-4 space-y-6">
         
         {/* Profile Card Header */}
-        <div className="p-6 rounded-[36px] bg-[#0b0f19]/80 border border-white/[0.08] backdrop-blur-xl relative overflow-hidden flex flex-col items-center text-center">
+        <div className="p-6 rounded-2xl bg-[#0b0f19]/80 border border-white/[0.08] backdrop-blur-xl relative overflow-hidden flex flex-col items-center text-center">
           <div className="absolute top-0 right-0 w-[150px] h-[150px] bg-indigo-500/5 blur-[50px] -z-10 rounded-full" />
 
           {/* Profile Photo */}
@@ -130,7 +130,7 @@ export default function StudentProfilePage() {
         )}
 
         {/* Skill Tags Configuration Section */}
-        <div className="p-6 rounded-[36px] bg-white/[0.01] border border-white/[0.05] space-y-4">
+        <div className="p-6 rounded-2xl bg-white/[0.01] border border-white/[0.05] space-y-4">
           <div className="flex justify-between items-center">
             <h3 className="text-[14px] font-bold text-gray-200 font-heading">My Active Skills</h3>
             {!isEditing ? (
@@ -193,8 +193,53 @@ export default function StudentProfilePage() {
           )}
         </div>
 
+        {/* Academic Credentials Verification Card */}
+        <div className="p-6 rounded-2xl bg-white/[0.01] border border-white/[0.05] space-y-4">
+          <h3 className="text-[14px] font-bold text-gray-200 font-heading">Academic Verification</h3>
+          <div className="space-y-3 text-[12.5px]">
+            <div className="flex justify-between items-center py-1.5 border-b border-white/[0.03]">
+              <span className="text-gray-500">Institution</span>
+              <span className="font-semibold text-gray-300">{profile.college || 'Delhi University'}</span>
+            </div>
+            <div className="flex justify-between items-center py-1.5 border-b border-white/[0.03]">
+              <span className="text-gray-500">Enrollment ID</span>
+              <span className="font-semibold text-gray-300">DU/2026/SEC-998</span>
+            </div>
+            <div className="flex justify-between items-center py-1.5">
+              <span className="text-gray-500">Verification Date</span>
+              <span className="font-semibold text-emerald-400">June 20, 2026</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Gig Badges Showcase */}
+        <div className="p-6 rounded-2xl bg-white/[0.01] border border-white/[0.05] space-y-4">
+          <h3 className="text-[14px] font-bold text-gray-200 font-heading">Reputation Badges</h3>
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              { title: 'Weekend Warrior', desc: '3 Saturday gigs done', unlocked: true, color: 'text-indigo-400 bg-indigo-500/10' },
+              { title: 'Five-Star Starter', desc: 'Perfect 5.0 score', unlocked: true, color: 'text-amber-400 bg-amber-500/10' },
+              { title: 'Quick Responder', desc: 'Host chat under 5m', unlocked: true, color: 'text-teal-400 bg-teal-500/10' },
+              { title: 'Century Club', desc: 'Earn ₹1000+ (90%)', unlocked: false, color: 'text-gray-500 bg-white/[0.02]' }
+            ].map((badge) => (
+              <div 
+                key={badge.title} 
+                className={`p-3 rounded-xl border border-white/[0.04] flex flex-col justify-between ${badge.unlocked ? 'bg-white/[0.01]' : 'opacity-50'}`}
+              >
+                <div>
+                  <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full inline-block mb-2 ${badge.color}`}>
+                    {badge.unlocked ? 'Unlocked' : 'Locked'}
+                  </span>
+                  <h4 className="text-[12px] font-bold text-gray-200">{badge.title}</h4>
+                </div>
+                <p className="text-[10px] text-gray-500 mt-1 leading-tight">{badge.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Security & Account Details */}
-        <div className="p-6 rounded-[36px] bg-white/[0.01] border border-white/[0.05] space-y-4 text-[13px]">
+        <div className="p-6 rounded-2xl bg-white/[0.01] border border-white/[0.05] space-y-4 text-[13px]">
           <div className="flex justify-between items-center py-2 border-b border-white/[0.04]">
             <span className="text-gray-400 flex items-center gap-1.5"><Phone className="w-4 h-4 text-gray-500" /> Phone login</span>
             <span className="font-semibold text-gray-200">+91 {profile.phone || '9876543210'}</span>

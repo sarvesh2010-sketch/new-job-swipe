@@ -86,6 +86,26 @@ export default function StudentHomePage() {
   const [showUndo, setShowUndo] = useState(false);
   const [undoCountdown, setUndoCountdown] = useState(3);
 
+  // Live ticker simulations
+  const [liveEvent, setLiveEvent] = useState('Ankit K. just swiped on Barista Gig');
+
+  useEffect(() => {
+    const events = [
+      'Ankit K. just swiped on Cafe Barista',
+      'Priya S. matched with Nexus Ushering',
+      'Vikram R. completed Excel Helper shift',
+      'Sneha M. joined Cafe Social Feed design group',
+      'Tushar G. earned ₹400 in concert crowd mgmt',
+      'Karan D. reputation rating rose to 4.9',
+      'Riya J. completed onboarding'
+    ];
+    const interval = setInterval(() => {
+      const random = events[Math.floor(Math.random() * events.length)];
+      setLiveEvent(random);
+    }, 4500);
+    return () => clearInterval(interval);
+  }, []);
+
   // Load profile on mount
   useEffect(() => {
     const saved = localStorage.getItem('jobswipe_student_profile');
@@ -256,6 +276,23 @@ export default function StudentHomePage() {
           onUndo={handleUndo}
           lastSwiped={lastSwiped}
         />
+
+        {/* Live Activity Ticker (Premium visual touch) */}
+        <div className="w-full max-w-md mt-6 flex items-center justify-center gap-2 bg-[#0b0f19]/45 border border-white/[0.04] rounded-full py-2.5 px-4 backdrop-blur-md">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={liveEvent}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.3 }}
+              className="text-[10px] text-gray-500 font-semibold tracking-wide uppercase text-center"
+            >
+              {liveEvent}
+            </motion.p>
+          </AnimatePresence>
+        </div>
 
         {/* Slide-Up Filters Panel */}
         <FiltersPanel

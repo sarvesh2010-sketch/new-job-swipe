@@ -98,9 +98,23 @@ export default function SwipeDeck({
           </motion.div>
 
           <h3 className="text-[20px] font-bold text-gray-100 font-heading mb-2">All Caught Up</h3>
-          <p className="text-[12.5px] text-gray-500 leading-relaxed max-w-xs mb-8">
+          <p className="text-[12.5px] text-gray-500 leading-relaxed max-w-xs mb-6">
             You've swiped through all gigs in your radius. Expand your filters or check back soon — new listings appear daily.
           </p>
+
+          {/* Daily Swipe Progress Meter */}
+          <div className="w-full max-w-xs mb-8 bg-[#0b0f19]/60 border border-white/[0.04] p-4 rounded-xl text-left">
+            <div className="flex justify-between items-center mb-1.5">
+              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Daily Swipes Allowance</span>
+              <span className="text-[11px] font-extrabold text-emerald-400">25 / 25 Swiped</span>
+            </div>
+            <div className="h-1.5 w-full bg-white/[0.04] rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full w-full" />
+            </div>
+            <p className="text-[9.5px] text-gray-500 leading-normal mt-2">
+              💡 Complete active gigs or increase your Trust Score to unlock unlimited daily swipes.
+            </p>
+          </div>
 
           <motion.button
             whileHover={{ scale: 1.03 }}
