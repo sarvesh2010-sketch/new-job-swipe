@@ -253,6 +253,8 @@ export default function StudentHomePage() {
           onSkip={handleSwipeLeft}
           onTapDetails={onTapDetails}
           onResetDeck={handleResetDeck}
+          onUndo={handleUndo}
+          lastSwiped={lastSwiped}
         />
 
         {/* Slide-Up Filters Panel */}
